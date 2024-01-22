@@ -1,16 +1,14 @@
 ---
-title: First Post
+title: "Sneaky Undefined Behavior in C++ Multithreading"
 date: 2023-07-18
-image: cover.jpg
+image: cover.png
 categories:
-    - Education
+    - Language Learning
 tags:
     - C++
     - Multithreading
 weight: 1
 ---
-
-# Sneaky Undefined Behavior in C++ Multithreading: Accessing `bool` Flags
 
 ## The Discovery
 
@@ -33,7 +31,7 @@ Do you notice anything wrong with this snippet? If you add this snippet to some 
 
 According to the compiler, the `run` variable could be safely optimized out, as clearly the while loop was always meant to be `while(true)`.
 
-## Undefined Behavior: 60% of the time it works every time
+## Undefined Behavior: 90% of the time it works every time
 
 Undefined behavior is a tricky topic in C and C++. A program might "get away" with running bug free while containing undefined behavior. However, the entire program is technically [meaningless](https://cryptoservices.github.io/fde/2018/11/30/undefined-behavior.html) as the results generated from it are non-deterministic. The program may work flawlessly one day, then start producing erroneous results the next. UB is also tricky to detect. 
 

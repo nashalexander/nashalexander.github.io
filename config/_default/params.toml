@@ -3,9 +3,10 @@ mainSections = ["post"]
 # Output page's full content in RSS.
 rssFullContent = true
 # favicon = "/favicon.png"
+description = "Alex Nash Personal Website"
 
 [footer]
-since = 2020
+since = 2023
 customText = ""
 
 [dateFormat]
@@ -13,13 +14,13 @@ published = "Jan 02, 2006"
 lastUpdated = "Jan 02, 2006 15:04 MST"
 
 [sidebar]
-emoji = "🍥"
-subtitle = "Software Engineer with a passion for development."
+# emoji = "🔥"
+subtitle = "Software Engineer with a passion for learning."
 
 [sidebar.avatar]
 enabled = true
 local = true
-src = "img/avatar.png"
+src = "profile_pic_150x150.png"
 
 [article]
 math = false
@@ -34,12 +35,6 @@ default = "Licensed under CC BY-NC-SA 4.0"
 type = "search"
 
 [[widgets.homepage]]
-type = "archives"
-
-[widgets.homepage.params]
-limit = 5
-
-[[widgets.homepage]]
 type = "categories"
 
 [widgets.homepage.params]
@@ -51,6 +46,12 @@ type = "tag-cloud"
 [widgets.homepage.params]
 limit = 10
 
+[[widgets.homepage]]
+type = "archives"
+
+[widgets.homepage.params]
+limit = 5
+
 [[widgets.page]]
 type = "toc"
 
@@ -59,9 +60,9 @@ site = ""
 card = "summary_large_image"
 
 [defaultImage.opengraph]
-enabled = false
-local = false
-src = ""
+enabled = true
+local = true
+src = "background.jpg"
 
 [colorScheme]
 toggle = true
@@ -76,7 +77,7 @@ enabled = true
 ## Comments
 [comments]
 enabled = true
-provider = "disqus"
+provider = "utterances"
 
 [comments.disqusjs]
 shortname = ""
@@ -86,9 +87,9 @@ admin = ""
 adminLabel = ""
 
 [comments.utterances]
-repo = ""
+repo = "nashalexander/nashalexander.github.io"
 issueTerm = "pathname"
-label = ""
+label = "comment-section"
 
 [comments.remark42]
 host = ""

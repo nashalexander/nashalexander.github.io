@@ -1,11 +1,11 @@
 # Configure main menu and social menu
-#[[main]]
-#identifier = "home"
-#name = "Home"
-#url = "/"
-#[main.params]
-#icon = "home"
-#newtab = true
+# [[main]]
+# identifier = "about"
+# name = "About"
+# url = "/about"
+#
+# [main.params]
+# icon = "home"
 
 [[social]]
 identifier = "github"
@@ -21,4 +21,4 @@ name = "Email"
 url = "mailto:contact@alexnash.dev"
 
 [social.params]
-icon = "messages"
+icon = "mail"
