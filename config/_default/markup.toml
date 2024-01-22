@@ -1,13 +1,17 @@
-# -- Markup --
-# These settings are required for the theme to function.
-
-[goldmark]
+# Markdown renderer configuration
 [goldmark.renderer]
-  unsafe = true
-
-[highlight]
-  noClasses = false
+unsafe = true
 
 [tableOfContents]
-  startLevel = 2
-  endLevel = 4
+endLevel = 4
+ordered = true
+startLevel = 2
+
+[highlight]
+noClasses = false
+codeFences = true
+guessSyntax = true
+lineNoStart = 1
+lineNos = true
+lineNumbersInTable = true
+tabWidth = 4
