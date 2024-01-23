@@ -10,7 +10,8 @@
 [[social]]
 identifier = "github"
 name = "GitHub"
-url = "https://github.com/CaiJimmy/hugo-theme-stack"
+url = "https://github.com/nashalexander"
+weight = 1
 
 [social.params]
 icon = "brand-github"
@@ -19,6 +20,7 @@ icon = "brand-github"
 identifier = "email"
 name = "Email"
 url = "mailto:contact@alexnash.dev"
+weight = 2
 
 [social.params]
 icon = "mail"
