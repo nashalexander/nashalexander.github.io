@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='View it on Github'>
+<title>A Programmer&#39;s Melody: Creating a Tool to Fix My Song Files</title>
+
+<link rel='canonical' href='http://localhost:1313/p/a-programmers-melody-creating-a-tool-to-fix-my-song-files/'>
+
+<link rel="stylesheet" href="/scss/style.min.abbd69b2908fdfcd5179898beaafd374514a86538d81639ddd2c58c06ae54e40.css"><meta property='og:title' content='A Programmer&#39;s Melody: Creating a Tool to Fix My Song Files'>
+<meta property='og:description' content='View it on Github'>
+<meta property='og:url' content='http://localhost:1313/p/a-programmers-melody-creating-a-tool-to-fix-my-song-files/'>
+<meta property='og:site_name' content='Alex Nash'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Python' /><meta property='article:tag' content='Bash' /><meta property='article:published_time' content='2024-03-09T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-03-09T00:00:00&#43;00:00'/><meta property='og:image' content='http://localhost:1313/p/a-programmers-melody-creating-a-tool-to-fix-my-song-files/cover.png' />
+<meta name="twitter:title" content="A Programmer&#39;s Melody: Creating a Tool to Fix My Song Files">
+<meta name="twitter:description" content="View it on Github"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/p/a-programmers-melody-creating-a-tool-to-fix-my-song-files/cover.png' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/profile_pic_150x150_hu85f2eabad3ba910ec79fc3050dcf9db2_33449_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Alex Nash</a></h1>
+            <h2 class="site-description">Software Engineer</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/nashalexander'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='mailto:contact@alexnash.dev'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+                <li id="i18n-switch">  
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                    <select name="language" onchange="window.location.href = this.selectedOptions[0].value">
+                        
+                            <option value="http://localhost:1313/" selected>English</option>
+                        
+                    </select>
+                </li>
+            
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#the-tragedy">The Tragedy</a></li>
+    <li><a href="#the-lost-title-format">The Lost Title Format</a>
+      <ol>
+        <li><a href="#there-are-a-few-good-ways-to-collect-track-info">There are a few good ways to collect track info:</a></li>
+      </ol>
+    </li>
+    <li><a href="#extracting-metadata-with-exiftool">Extracting Metadata with ExifTool</a>
+      <ol>
+        <li><a href="#parse-metadata-and-request-a-rename">Parse metadata and request a rename</a></li>
+        <li><a href="#edge-case-handle--filenames">Edge case: Handle -filenames</a></li>
+        <li><a href="#final-script">Final Script</a></li>
+      </ol>
+    </li>
+    <li><a href="#identifying-tracks-automatically-with-the-shazamio-api">Identifying tracks automatically with the ShazamIO API</a>
+      <ol>
+        <li><a href="#test-basic-usage-of-shazamio">Test basic usage of ShazamIO</a></li>
+        <li><a href="#encapsulate-within-an-identify-function">Encapsulate within an identify function</a></li>
+        <li><a href="#create-a-process-to-handle-the-main-execution-logic">Create a process to handle the main execution logic</a></li>
+        <li><a href="#create-coroutines-to-handle-identifying-songs-and-renaming-files">Create coroutines to handle identifying songs and renaming files</a></li>
+        <li><a href="#the-throttling-problem">The throttling problem</a></li>
+      </ol>
+    </li>
+    <li><a href="#final-result">Final Result</a></li>
+    <li><a href="#additional-thoughts-and-improvements">Additional Thoughts and Improvements</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/a-programmers-melody-creating-a-tool-to-fix-my-song-files/">
+                <img src="/p/a-programmers-melody-creating-a-tool-to-fix-my-song-files/cover_hua05a2813d4e00fad08fc44264f57e051_2454800_800x0_resize_box_3.png"
+                        srcset="/p/a-programmers-melody-creating-a-tool-to-fix-my-song-files/cover_hua05a2813d4e00fad08fc44264f57e051_2454800_800x0_resize_box_3.png 800w, /p/a-programmers-melody-creating-a-tool-to-fix-my-song-files/cover_hua05a2813d4e00fad08fc44264f57e051_2454800_1600x0_resize_box_3.png 1600w"
+                        width="800" 
+                        height="457" 
+                        loading="lazy"
+                        alt="Featured image of post A Programmer&#39;s Melody: Creating a Tool to Fix My Song Files" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/projects/" >
+                Projects
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/a-programmers-melody-creating-a-tool-to-fix-my-song-files/">A Programmer&#39;s Melody: Creating a Tool to Fix My Song Files</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 09, 2024</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    11 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><a class="link" href="https://github.com/nashalexander/song_identifier"  target="_blank" rel="noopener"
+    ><strong>View it on Github</strong></a></p>
+<h2 id="the-tragedy">The Tragedy</h2>
+<p>Every data hoarder&rsquo;s nightmare — no, not hard drive corruption (though that&rsquo;s up there), but something equally as chilling: scrambled file names. Imagine your meticulously curated music collection became a cryptic mess of unidentifiable tracks!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ls my-lifes-mixtape/
+</span></span><span class="line"><span class="cl"> 1027098972255028133.mp3
+</span></span><span class="line"><span class="cl"> 1027167747674130870.mp3
+</span></span><span class="line"><span class="cl"> 1027290277583497446.mp3
+</span></span><span class="line"><span class="cl"> 1031191161722692691.mp3
+</span></span><span class="line"><span class="cl"> -1062590078858828842.mp3
+</span></span><span class="line"><span class="cl"> 1098949889736289958.mp3
+</span></span><span class="line"><span class="cl"> -1131991569406517012.mp3
+</span></span><span class="line"><span class="cl"> 1172902445231424744.mp3
+</span></span><span class="line"><span class="cl"> 1173619643127455402.mp3
+</span></span><span class="line"><span class="cl"> -1205293020995236198.mp3
+</span></span><span class="line"><span class="cl"> ...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is the horror I found myself in when revisiting my old collection of music. Somehow, the titles became unidentifiable indexed numbers. With hundreds of files like this, playing and identifying them all by hand would take an unreasonable amount of time. The only real choice to deal with this issue is to reach for the lazy programmer&rsquo;s playbook.</p>
+<p><strong>Let&rsquo;s try to automate this.</strong></p>
+<h2 id="the-lost-title-format">The Lost Title Format</h2>
+<p>To begin, it&rsquo;s important to identify a target file format that would satisfy my data collection needs. An ideal file name format for this use case would include the title of the track as well as the artist name.</p>
+<p><code>Track title - Artist.extension</code></p>
+<p>More song info could be collected, but with the title and artist name the files can at least be identified.</p>
+<h3 id="there-are-a-few-good-ways-to-collect-track-info">There are a few good ways to collect track info:</h3>
+<ul>
+<li>It&rsquo;s possible some files have their track info embedded in metadata. In this case, we can inspect the file for this metadata and determine if the track name and artist name are preserved.</li>
+<li>Identify the songs automatically based on audio data, this could be done with some song detection API.</li>
+</ul>
+<h2 id="extracting-metadata-with-exiftool">Extracting Metadata with ExifTool</h2>
+<p>By inspecting file metadata (with the tool <code>exiftool</code>), we can determine if track details are still present on any music files by parsing for Title and Artist details embedded within them.</p>
+<p><strong>An example of inspecting a file:</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ exiftool 8810117537767368468.mp3
+</span></span><span class="line"><span class="cl">ExifTool Version Number         : 12.40
+</span></span><span class="line"><span class="cl">File Name                       : 8810117537767368468.mp3
+</span></span><span class="line"><span class="cl">Directory                       : .
+</span></span><span class="line"><span class="cl">File Size                       : 7.8 MiB
+</span></span><span class="line"><span class="cl">File Modification Date/Time     : 2017:04:12 12:51:55-04:00
+</span></span><span class="line"><span class="cl">File Access Date/Time           : 2024:01:28 02:26:09-05:00
+</span></span><span class="line"><span class="cl">File Inode Change Date/Time     : 2017:04:12 12:51:55-04:00
+</span></span><span class="line"><span class="cl"><span class="c1"># ...</span>
+</span></span><span class="line"><span class="cl">Title                           : Mocki - Weekend <span class="o">(</span>Jai Wolf Remix<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Artist                          : Underground Charisma
+</span></span><span class="line"><span class="cl"><span class="c1"># ...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here we can see an example of a file with Title and Artist details preserved. The file names for these are relatively easy to resolve, and we can setup a simple bash script to correct them.</p>
+<h3 id="parse-metadata-and-request-a-rename">Parse metadata and request a rename</h3>
+<p>First let&rsquo;s automate retrieving our desired tags. We&rsquo;ll create a bash script leveraging <code>exiftool</code> to automate this.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Just process the first command line argument as single file, and if there are</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># no arguments then fail</span>
+</span></span><span class="line"><span class="cl"><span class="nv">file</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">1</span><span class="p">:?</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">title</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">artist</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> exiftool <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">|</span> grep -q <span class="s1">&#39;Title&#39;</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">title</span><span class="o">=</span><span class="k">$(</span>exiftool -Title -m -p <span class="s1">&#39;${Title}&#39;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> exiftool <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">|</span> grep -q <span class="s1">&#39;Artist&#39;</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">artist</span><span class="o">=</span><span class="k">$(</span>exiftool -Artist -m -p <span class="s1">&#39;${Artist}&#39;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>To ensure name change actions are verified by a user directly, we can ask the user if the would like to rename the file based on the given data. Ensure the file extension is preserved using the <a class="link" href="https://tldp.org/LDP/abs/html/string-manipulation.html"  target="_blank" rel="noopener"
+    >bash substring removal</a> pattern.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># The expression removes everything but the file extension</span>
+</span></span><span class="line"><span class="cl"><span class="nv">file_ext</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2"> : </span><span class="si">${</span><span class="nv">title</span><span class="si">}</span><span class="s2"> - </span><span class="si">${</span><span class="nv">artist</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">file_ext</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;rename file? (y/N)&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">read</span> answer
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">answer</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;y&#34;</span> <span class="o">]]</span> <span class="o">||</span> <span class="o">[[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">answer</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;Y&#34;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    mv <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">title</span><span class="si">}</span><span class="s2"> - </span><span class="si">${</span><span class="nv">artist</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">file_ext</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2"> not renamed&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="edge-case-handle--filenames">Edge case: Handle -filenames</h3>
+<p>Our script works - almost. There is an edge case that currently breaks it however. Files that begin with a <code>-</code>, such as <code>-1131991569406517012.mp3</code> cause an interesting error:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Invalid TAG name: <span class="s2">&#34;1131991569406517012.mp3&#34;</span>
+</span></span><span class="line"><span class="cl">No file specified
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The error appears to imply <code>exiftool</code> is parsing the filename as an additional command line option due to the <code>-</code> signifying an option. To eliminate this issue, <code>exiftool</code> must be told where command line options end, and where file arguments begin. This can be accomplished by including <code>--</code> within the command call.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="k">if</span> exiftool -- <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">|</span> grep -q <span class="s1">&#39;Title&#39;</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">title</span><span class="o">=</span><span class="k">$(</span>exiftool -Title -m -p <span class="s1">&#39;${Title}&#39;</span> -- <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="final-script">Final Script</h3>
+<p>Before we finalize this script, let&rsquo;s add the functionality to handle all input CLI arguments as filenames. This will allow us to do simple calls such as <code>./rename_using_tags.sh *.mp3</code> within a target directory to completely repair corrupt file names!</p>
+<p>Dry run capabilities are also included below, allowing test runs to substitute <code>mv</code> with <code>echo</code> instead. Dry run is activated by calling <code>-d</code> before including filenames. for example: <code>./rename_using_tags.sh -d *.mp3</code>. This can allow us to verify our script will function as expected before running any irreversible commands.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="nv">MV_CMD</span><span class="o">=</span>mv
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Dry run</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[[</span> <span class="s2">&#34;</span><span class="nv">$1</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;-d&#34;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">MV_CMD</span><span class="o">=</span><span class="nb">echo</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">shift</span>
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> file in <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span><span class="p">;</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">title</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nv">artist</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> exiftool -- <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">|</span> grep -q <span class="s1">&#39;Title&#39;</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">title</span><span class="o">=</span><span class="k">$(</span>exiftool -Title -m -p <span class="s1">&#39;${Title}&#39;</span> -- <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="k">continue</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> exiftool -- <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">|</span> grep -q <span class="s1">&#39;Artist&#39;</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">artist</span><span class="o">=</span><span class="k">$(</span>exiftool -Artist -m -p <span class="s1">&#39;${Artist}&#39;</span> -- <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nv">file_ext</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2"> : </span><span class="si">${</span><span class="nv">title</span><span class="si">}</span><span class="s2"> - </span><span class="si">${</span><span class="nv">artist</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">file_ext</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">echo</span> <span class="s2">&#34;rename file? (y/N)&#34;</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">  <span class="nb">read</span> answer
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="o">[[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">answer</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;y&#34;</span> <span class="o">]]</span> <span class="o">||</span> <span class="o">[[</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">answer</span><span class="si">}</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s2">&#34;Y&#34;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span></span><span class="line"><span class="cl">      <span class="nv">file_ext</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">      <span class="nv">$MV_CMD</span> -- <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">title</span><span class="si">}</span><span class="s2"> - </span><span class="si">${</span><span class="nv">artist</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">file_ext</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">else</span>
+</span></span><span class="line"><span class="cl">      <span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">file</span><span class="si">}</span><span class="s2"> not renamed&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">fi</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="identifying-tracks-automatically-with-the-shazamio-api">Identifying tracks automatically with the ShazamIO API</h2>
+<p>What about the songs without any useful metadata to be found? Only inspecting the audio itself could help identify the track. For this case, an identification API such as <a class="link" href="https://pypi.org/project/shazamio/"  target="_blank" rel="noopener"
+    >shazamio</a> can be leveraged.</p>
+<h3 id="test-basic-usage-of-shazamio">Test basic usage of ShazamIO</h3>
+<p>First let&rsquo;s implement a basic usage of ShazamIO (referencing their <a class="link" href="https://github.com/shazamio/ShazamIO/blob/master/examples/recognize_song.py"  target="_blank" rel="noopener"
+    >example script</a>). With this, we can experiment and determine the functionality required to identify and retrieve our track data. ShazamIO is an asynchronous API, and thus we&rsquo;ll need to leverage coroutines to utilize it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">asyncio</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">shazamio</span> <span class="kn">import</span> <span class="n">Shazam</span><span class="p">,</span> <span class="n">Serialize</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># We&#39;ll pass in the song name via the first command line argument</span>
+</span></span><span class="line"><span class="cl"><span class="n">song</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Init API</span>
+</span></span><span class="line"><span class="cl"><span class="n">shazam</span> <span class="o">=</span> <span class="n">Shazam</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Generates a coroutine for us to run asynchronously</span>
+</span></span><span class="line"><span class="cl"><span class="n">coroutine</span> <span class="o">=</span> <span class="n">shazam</span><span class="o">.</span><span class="n">recognize_song</span><span class="p">(</span><span class="n">song</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Run and wait for coroutine to return</span>
+</span></span><span class="line"><span class="cl"><span class="n">out</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">coroutine</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Serialize the out data buffer into a readable format</span>
+</span></span><span class="line"><span class="cl"><span class="n">serialized</span> <span class="o">=</span> <span class="n">Serialize</span><span class="o">.</span><span class="n">full_track</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Print to inspect available values</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">serialized</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Song &#34;</span><span class="p">,</span> <span class="n">song</span><span class="p">,</span> <span class="s2">&#34; not found&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">serialized</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>From this quick example script, we can parse the returned data and determine the useful fields for our utility.</p>
+<p><strong>Output:</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ResponseTrack<span class="o">(</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">tag_id</span><span class="o">=</span>UUID<span class="o">(</span><span class="s1">&#39;18f05c79-9e5c-40ba-b2af-5207c37159be&#39;</span><span class="o">)</span>, 
+</span></span><span class="line"><span class="cl">    <span class="nv">retry_ms</span><span class="o">=</span>None, 
+</span></span><span class="line"><span class="cl">    <span class="nv">location</span><span class="o">=</span>LocationModel<span class="o">(</span><span class="nv">accuracy</span><span class="o">=</span>0.01<span class="o">)</span>, 
+</span></span><span class="line"><span class="cl">    <span class="nv">matches</span><span class="o">=[</span>MatchModel<span class="o">(</span><span class="nv">id</span><span class="o">=</span><span class="s1">&#39;683393722&#39;</span>, <span class="nv">offset</span><span class="o">=</span>92.227828125, <span class="nv">time_skew</span><span class="o">=</span>-0.06451672, <span class="nv">frequency_skew</span><span class="o">=</span>-0.009831846, <span class="nv">channel</span><span class="o">=</span>None<span class="o">)]</span>,
+</span></span><span class="line"><span class="cl">    <span class="nv">timestamp</span><span class="o">=</span>1708139612620,
+</span></span><span class="line"><span class="cl">    <span class="nv">timezone</span><span class="o">=</span><span class="s1">&#39;Europe/Moscow&#39;</span>,
+</span></span><span class="line"><span class="cl">    <span class="nv">track</span><span class="o">=</span>TrackInfo<span class="o">(</span><span class="nv">key</span><span class="o">=</span>683393722,
+</span></span><span class="line"><span class="cl">    <span class="nv">title</span><span class="o">=</span><span class="s1">&#39;Let It Enfold You&#39;</span>,
+</span></span><span class="line"><span class="cl">    <span class="nv">subtitle</span><span class="o">=</span><span class="s1">&#39;Senses Fail&#39;</span>,
+</span></span><span class="line"><span class="cl">    <span class="nv">artist_id</span><span class="o">=</span><span class="s1">&#39;42&#39;</span>,
+</span></span><span class="line"><span class="cl">    <span class="nv">shazam_url</span><span class="o">=</span><span class="s1">&#39;https://www.shazam.com/track/42&#39;</span>,
+</span></span><span class="line"><span class="cl">    ...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Great, the title is an available field, and subtitle references the Artist of the song. We can create our parsing algorithm to retrieve this info and rename the song files.</p>
+<h3 id="encapsulate-within-an-identify-function">Encapsulate within an identify function</h3>
+<p>Let&rsquo;s create an identify function to retrieve the Shazam data, parse it, and return the desired file name. Making this function asynchronous will help us later.</p>
+<p>For error scenarios, we&rsquo;ll use Python exceptions. These can be caught by the calling function, which can determine how to proceed with the song file.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">identify</span><span class="p">(</span><span class="n">song_file</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">subtitle</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">song_file_extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">song_file</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">shazam</span> <span class="o">=</span> <span class="n">Shazam</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">out</span> <span class="o">=</span> <span class="k">await</span> <span class="n">shazam</span><span class="o">.</span><span class="n">recognize_song</span><span class="p">(</span><span class="n">song_file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Shazam could not recognize the song from file </span><span class="si">{</span><span class="n">song_file</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">serialized</span> <span class="o">=</span> <span class="n">Serialize</span><span class="o">.</span><span class="n">full_track</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">serialized</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Song name of </span><span class="si">{</span><span class="n">song_file</span><span class="si">}</span><span class="s2"> not found&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">title</span> <span class="o">=</span> <span class="n">serialized</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">title</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">serialized</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">subtitle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Song artist of </span><span class="si">{</span><span class="n">song_file</span><span class="si">}</span><span class="s2"> not found&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">subtitle</span> <span class="o">=</span> <span class="n">serialized</span><span class="o">.</span><span class="n">track</span><span class="o">.</span><span class="n">subtitle</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># Return our desired naming format</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">title</span> <span class="o">+</span> <span class="s2">&#34; - &#34;</span> <span class="o">+</span> <span class="n">subtitle</span> <span class="o">+</span> <span class="n">song_file_extension</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="create-a-process-to-handle-the-main-execution-logic">Create a process to handle the main execution logic</h3>
+<p>We&rsquo;ll create a main process to handle the control flow of our tool. Because the ShazamIO API takes some time to identify the song, our plan is to use several workers at the same time to quickly find and rename the many files given to our application.</p>
+<p>Here, multiple identifier workers will be created. These workers will concurrently handle identifying all songs, and populating our async song queue when found.</p>
+<p>For our limited amount of workers to traverse the long list of input files efficiently, a stride based setup can be leveraged. Each worker thread is given a start index and a stride length based on the total number of workers. Using this method allows for workers to process multiple songs by striding through the array without stepping on each other.</p>
+<p>Here is example of a stride based traversal to illustrate this method:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">workers</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">array</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Process elements</span>
+</span></span><span class="line"><span class="cl"><span class="n">workers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">9</span>
+</span></span><span class="line"><span class="cl"><span class="n">workers</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">workers</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">11</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>There will be just one renamer worker however. This single worker handles taking files from the async queue and renaming them. This way, we keep the renaming part simple and sequential.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="n">file_list</span><span class="p">,</span> <span class="n">num_coroutines</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">song_name_queue</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Create producer tasks, each with a different start index and the same stride</span>
+</span></span><span class="line"><span class="cl">    <span class="n">identifiers</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">identifier_coroutine</span><span class="p">(</span><span class="n">song_name_queue</span><span class="p">,</span> <span class="n">file_list</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">num_coroutines</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_coroutines</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">renamer</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">renamer_coroutine</span><span class="p">(</span><span class="n">song_name_queue</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Wait for all songs to be identified</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">identifiers</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Wait until the queue is fully processed</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">song_name_queue</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Cancel the consumer task as it&#39;s intentionally an infinite loop</span>
+</span></span><span class="line"><span class="cl">    <span class="n">renamer</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="create-coroutines-to-handle-identifying-songs-and-renaming-files">Create coroutines to handle identifying songs and renaming files</h3>
+<p>Here we implement the identifier and renamer coroutines. As mentioned before, the <code>identifier_coroutine</code> will utilize a stride based implementation.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">identifier_coroutine</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">start_index</span><span class="p">,</span> <span class="n">stride</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_index</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">stride</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">item</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">song_title</span> <span class="o">=</span> <span class="k">await</span> <span class="n">identify</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">await</span> <span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="n">item</span><span class="p">,</span> <span class="n">song_title</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">renamer_coroutine</span><span class="p">(</span><span class="n">queue</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">file</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">new_name</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;renaming </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">new_name</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">new_name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Notify the queue that the item has been processed</span>
+</span></span><span class="line"><span class="cl">        <span class="n">queue</span><span class="o">.</span><span class="n">task_done</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="the-throttling-problem">The throttling problem</h3>
+<p>The Shazam API unfortunately puts a cap on how many requests you can make in a certain amount of time. If this limit is exceeded, any additional requests will time out for a while. To avoid hitting this limit, we can make our identify function wait for a random amount of time before trying again. This way, not all of our identifier workers will send requests at the same time. Spacing out requests with this method after the timeout ends will help prevent overloading the Shazam API again with multiple requests at once.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">identify</span><span class="p">(</span><span class="n">song_file</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">title</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">subtitle</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">song_file_extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">song_file</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">shazam</span> <span class="o">=</span> <span class="n">Shazam</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">max_attempts</span> <span class="o">=</span> <span class="mi">20</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># Shazam throttles song requests, so retry with sleep if exception occurs</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">attempt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_attempts</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">out</span> <span class="o">=</span> <span class="k">await</span> <span class="n">shazam</span><span class="o">.</span><span class="n">recognize_song</span><span class="p">(</span><span class="n">song_file</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span>
+</span></span><span class="line"><span class="cl">        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">random_sleep_time</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random_sleep_time</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Shazam could not recognize the song from file </span><span class="si">{</span><span class="n">song_file</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">serialized</span> <span class="o">=</span> <span class="n">Serialize</span><span class="o">.</span><span class="n">full_track</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="final-result">Final Result</h2>
+<p>Some songs are still misidentified by ShazamIO, but for most cases this combo of tools fixed my music library.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    Fur Elise - Ludwig van Beethoven.mp3
+</span></span><span class="line"><span class="cl">    Sandstorm - Darude.mp3
+</span></span><span class="line"><span class="cl">    Canon in D - Johann Pachelbel.mp3
+</span></span><span class="line"><span class="cl">    Baby - Justin Bieber.mp3
+</span></span><span class="line"><span class="cl">    River Flows In You - Yiruma.mp3
+</span></span><span class="line"><span class="cl">    Never Gonna Give You Up - Rick Astley.mp3
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="additional-thoughts-and-improvements">Additional Thoughts and Improvements</h2>
+<ul>
+<li>These tools prompt the user before every file name change, but this could quickly become tedious. Instead, implementing a -y option to skip prompts could be effective.</li>
+<li>For review, adding the option to generate a log of file name changes could also help if some name change occurred that was not intended.</li>
+<li>Using an API like ShazamIO that connects to a commercially owned service is a weak point, and creates issues such as the throttling problem above. Using a different API, or replacing with a deep learning model that can run on local hardware or private servers would be preferred. At the time of writing this, I could not find a well developed and updated song identification model, but something like this should be feasible with current deep learning technology.</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/python/">Python</a>
+        
+            <a href="/tags/bash/">Bash</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script src="https://utteranc.es/client.js" 
+        repo="nashalexander/nashalexander.github.io"
+        issue-term="pathname"
+        
+        label="comment-section"
+        
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<style>
+    .utterances {
+        max-width: unset;
+    }
+</style>
+
+<script>
+    let utterancesLoaded = false;
+
+    function setUtterancesTheme(theme) {
+        let utterances = document.querySelector('.utterances iframe');
+        if (utterances) {
+            utterances.contentWindow.postMessage(
+                {
+                    type: 'set-theme',
+                    theme: `github-${theme}`
+                },
+                'https://utteranc.es'
+            );
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://utteranc.es') return;
+
+        
+        utterancesLoaded = true;
+        setUtterancesTheme(document.documentElement.dataset.scheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        if (!utterancesLoaded) return;
+        setUtterancesTheme(e.detail)
+    })
+</script>
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2023 - 
+        
+        2024 Alex Nash
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.21.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

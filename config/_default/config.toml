@@ -14,4 +14,4 @@ buildFuture = false
 # googleAnalytics = "G-XXXXXXXXX"
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS"]

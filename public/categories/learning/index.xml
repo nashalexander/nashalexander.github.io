@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Learning on Alex Nash</title>
+        <link>http://localhost:1313/categories/learning/</link>
+        <description>Recent content in Learning on Alex Nash</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <lastBuildDate>Tue, 18 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/learning/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Sneaky Undefined Behavior in C&#43;&#43; Multithreading</title>
+        <link>http://localhost:1313/p/sneaky-undefined-behavior-in-c-multithreading/</link>
+        <pubDate>Tue, 18 Jul 2023 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/p/sneaky-undefined-behavior-in-c-multithreading/</guid>
+        <description>&lt;img src="http://localhost:1313/p/sneaky-undefined-behavior-in-c-multithreading/cover.png" alt="Featured image of post Sneaky Undefined Behavior in C&#43;&#43; Multithreading" /&gt;&lt;h2 id=&#34;the-discovery&#34;&gt;The Discovery&lt;/h2&gt;
+&lt;p&gt;Recently while performing some unimportant updates to a C++ codebase, I noticed an interesting issue arise.&lt;/p&gt;
+&lt;p&gt;When attempting to signal some worker threads to complete, they refused to end. After investigating extensively, I could not understand how my changes had caused this issue. The modifications weren&amp;rsquo;t even touching these zombie threads.&lt;/p&gt;
+&lt;p&gt;After inspecting the threads in question further, a realization hit me - the compiler had optimized out a boolean.&lt;/p&gt;
+&lt;h3 id=&#34;this-snippet-of-code-has-a-bug&#34;&gt;This snippet of code has a bug&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kr&#34;&gt;thread&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;workerThread&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;while&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;doWork&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;this_thread&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sleep_for&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;chrono&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;seconds&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;run&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;workerThread&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;join&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;Do you notice anything wrong here?&lt;/p&gt;
+&lt;p&gt;If you add this snippet to some test code, it most likely will compile and run just as desired. Probably, after setting run to false, it will end &lt;code&gt;workerThread&lt;/code&gt; and allow &lt;code&gt;.join()&lt;/code&gt; to complete.&lt;/p&gt;
+&lt;p&gt;However, if you&amp;rsquo;re unlucky enough you might compile and discover the thread never ends. This interesting issue is because passing the bool to the thread&amp;rsquo;s lambda function, even by reference, causes undefined behavior.&lt;/p&gt;
+&lt;p&gt;According to the compiler, the &lt;code&gt;run&lt;/code&gt; variable could be safely optimized out, as clearly the while loop was always meant to be &lt;code&gt;while(true)&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;undefined-behavior-90-of-the-time-it-works-every-time&#34;&gt;Undefined Behavior: 90% of the time it works every time&lt;/h2&gt;
+&lt;p&gt;Undefined behavior is a tricky topic in C and C++. A program might &amp;ldquo;get away&amp;rdquo; with running bug free while containing undefined behavior.&lt;/p&gt;
+&lt;p&gt;However, the entire program is technically &lt;a class=&#34;link&#34; href=&#34;https://cryptoservices.github.io/fde/2018/11/30/undefined-behavior.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;meaningless&lt;/a&gt;. Since the results generated from the program are non-deterministic, it may work flawlessly one day, then start producing erroneous results the next.&lt;/p&gt;
+&lt;p&gt;UB is also tricky to detect. There are static analysis tools available, but even they struggle to detect all instances. It is left to the programmer to understand the cost of the code they write and to understand the repercussions of adding it to a codebase, including whether or not it has the potential to introduce undefined behavior.&lt;/p&gt;
+&lt;h3 id=&#34;a-variable-of-a-primitive-data-type-accessed-by-multiple-threads-without-using-a-mutex-or-semaphore-is-undefined-behavior&#34;&gt;A variable of a primitive data type accessed by multiple threads without using a mutex or semaphore is undefined behavior&lt;/h3&gt;
+&lt;p&gt;This is because primitive types in C++ do not have several characteristics required for safe multithreaded access. These types do not have a specified memory order or synchronization mechanism. This means when two threads attempt to access a single variable of these types, there is no defined way to ensure a data race does not occur.&lt;/p&gt;
+&lt;h2 id=&#34;the-solution-atomics&#34;&gt;The Solution: Atomics&lt;/h2&gt;
+&lt;p&gt;There are several ways to fix the issue. You could do proper locking and synchronize the main and worker threads when accessing &lt;code&gt;run&lt;/code&gt;. Another solution that may provide better performance is assigning multithreaded behavior to the variable itself. This can be done by wrapping the primitive type in an &lt;a class=&#34;link&#34; href=&#34;https://en.cppreference.com/w/cpp/atomic/atomic&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;atomic variable&lt;/a&gt;. After doing so, the variable can be used like any other bool, except now we have removed the undefined behavior!&lt;/p&gt;
+&lt;h3 id=&#34;run-is-now-thread-safe&#34;&gt;&lt;code&gt;run&lt;/code&gt; is now thread safe&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;atomic&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;run&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;kr&#34;&gt;thread&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;workerThread&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;k&#34;&gt;while&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;run&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        &lt;span class=&#34;n&#34;&gt;doWork&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;this_thread&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sleep_for&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;chrono&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;seconds&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;run&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;workerThread&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;join&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;why-not-use-volatile&#34;&gt;Why not use Volatile?&lt;/h2&gt;
+&lt;p&gt;For those with experience in C, a tempting solution might be to use the qualifier &lt;code&gt;volatile&lt;/code&gt;. At first glance, this makes sense. If a variable is marked &lt;code&gt;volatile&lt;/code&gt;, you can avoid those pesky compiler optimizations that occur as a result of undefined behavior.&lt;/p&gt;
+&lt;p&gt;However, after digging a little one can find some interesting details on this proposed solution. The &lt;code&gt;volatile&lt;/code&gt; qualifier has its own flavor of undefined behavior. Namely, a &lt;a class=&#34;link&#34; href=&#34;https://en.cppreference.com/w/c/language/volatile&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;volatile variable&lt;/a&gt; is not guaranteed to have synchronization or a specified memory ordering.&lt;/p&gt;
+&lt;h3 id=&#34;any-ub-results-in-the-entire-program-becoming-undefined&#34;&gt;Any UB results in the entire program becoming undefined&lt;/h3&gt;
+&lt;p&gt;Without these properties, accessing a volatile variable concurrently is undefined behavior. As discussed previously, introducing convenient UB into a program is dangerous and can have unforeseen impacts later in a program&amp;rsquo;s lifecycle.&lt;/p&gt;
+&lt;h2 id=&#34;references--further-reading&#34;&gt;References / Further Reading&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://cryptoservices.github.io/fde/2018/11/30/undefined-behavior.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://cryptoservices.github.io/fde/2018/11/30/undefined-behavior.html&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://en.cppreference.com/w/cpp/atomic/atomic&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://en.cppreference.com/w/cpp/atomic/atomic&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://en.cppreference.com/w/c/language/volatile&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://en.cppreference.com/w/c/language/volatile&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

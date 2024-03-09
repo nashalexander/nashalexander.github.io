@@ -3,11 +3,10 @@ title: "Sneaky Undefined Behavior in C++ Multithreading"
 date: 2023-07-18
 image: cover.png
 categories:
-    - Language Learning
+    - Learning
 tags:
     - C++
     - Multithreading
-weight: 1
 ---
 
 ## The Discovery
