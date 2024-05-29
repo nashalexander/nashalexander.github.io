@@ -1,7 +1,7 @@
 ---
 title: "A Programmer's Melody: Creating a Tool to Fix My Song Files"
 date: 2024-03-09
-image: cover.png
+image: cover.webp
 categories:
     - Projects
 tags:

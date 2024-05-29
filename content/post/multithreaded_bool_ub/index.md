@@ -1,7 +1,7 @@
 ---
 title: "Sneaky Undefined Behavior in C++ Multithreading"
 date: 2023-07-18
-image: cover.png
+image: cover.webp
 categories:
     - Learning
 tags:

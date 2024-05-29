@@ -1,6 +1,7 @@
 theme = "stack"
 baseURL = "https://alexnash.dev/"
 defaultContentLanguage = "en"
+description = "A blog about tech, software projects, and engineering"
 
 # pluralizeListTitles = "true" # hugo function useful for non-english languages, find out more in  https://gohugo.io/getting-started/configuration/#pluralizelisttitles
 
@@ -11,7 +12,14 @@ summaryLength = 0
 buildDrafts = false
 buildFuture = false
 
-# googleAnalytics = "G-XXXXXXXXX"
+googleAnalytics = "G-2VC8B41NDX"
 
 [outputs]
   home = ["HTML", "RSS"]
+
+[minify]
+  [minify.tdewolff]
+    minifyHTML = true
+
+[params]
+  hugoPipeImageMaxWidth = 2000

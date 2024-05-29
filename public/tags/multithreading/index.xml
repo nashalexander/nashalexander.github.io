@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Multithreading on Alex Nash</title>
-        <link>http://localhost:1313/tags/multithreading/</link>
+        <link>https://alexnash.dev/tags/multithreading/</link>
         <description>Recent content in Multithreading on Alex Nash</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
-        <lastBuildDate>Tue, 18 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/multithreading/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 18 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://alexnash.dev/tags/multithreading/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Sneaky Undefined Behavior in C&#43;&#43; Multithreading</title>
-        <link>http://localhost:1313/p/sneaky-undefined-behavior-in-c-multithreading/</link>
+        <link>https://alexnash.dev/p/sneaky-undefined-behavior-in-c-multithreading/</link>
         <pubDate>Tue, 18 Jul 2023 00:00:00 +0000</pubDate>
         
-        <guid>http://localhost:1313/p/sneaky-undefined-behavior-in-c-multithreading/</guid>
-        <description>&lt;img src="http://localhost:1313/p/sneaky-undefined-behavior-in-c-multithreading/cover.png" alt="Featured image of post Sneaky Undefined Behavior in C&#43;&#43; Multithreading" /&gt;&lt;h2 id=&#34;the-discovery&#34;&gt;The Discovery&lt;/h2&gt;
+        <guid>https://alexnash.dev/p/sneaky-undefined-behavior-in-c-multithreading/</guid>
+        <description>&lt;img src="https://alexnash.dev/p/sneaky-undefined-behavior-in-c-multithreading/cover.png" alt="Featured image of post Sneaky Undefined Behavior in C&#43;&#43; Multithreading" /&gt;&lt;h2 id=&#34;the-discovery&#34;&gt;The Discovery&lt;/h2&gt;
 &lt;p&gt;Recently while performing some unimportant updates to a C++ codebase, I noticed an interesting issue arise.&lt;/p&gt;
 &lt;p&gt;When attempting to signal some worker threads to complete, they refused to end. After investigating extensively, I could not understand how my changes had caused this issue. The modifications weren&amp;rsquo;t even touching these zombie threads.&lt;/p&gt;
 &lt;p&gt;After inspecting the threads in question further, a realization hit me - the compiler had optimized out a boolean.&lt;/p&gt;

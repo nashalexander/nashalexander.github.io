@@ -2,43 +2,43 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Pages on Alex Nash</title>
-        <link>http://localhost:1313/page/</link>
+        <link>https://alexnash.dev/page/</link>
         <description>Recent content in Pages on Alex Nash</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
-        <lastBuildDate>Sun, 06 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 06 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://alexnash.dev/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Archives</title>
-        <link>http://localhost:1313/archives/</link>
+        <link>https://alexnash.dev/archives/</link>
         <pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate>
         
-        <guid>http://localhost:1313/archives/</guid>
+        <guid>https://alexnash.dev/archives/</guid>
         <description></description>
         </item>
         <item>
         <title>About</title>
-        <link>http://localhost:1313/about/</link>
+        <link>https://alexnash.dev/about/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>http://localhost:1313/about/</guid>
-        <description>&lt;img src="http://localhost:1313/background.jpg" alt="Featured image of post About" /&gt;&lt;p&gt;Software Engineer with a passion for exploration. My interests are in embedded systems, high performance computing, and artificial intelligence/machine learning.&lt;/p&gt;
+        <guid>https://alexnash.dev/about/</guid>
+        <description>&lt;img src="https://alexnash.dev/background.jpg" alt="Featured image of post About" /&gt;&lt;p&gt;Software Engineer with a passion for exploration. My interests are in embedded systems, high performance computing, and artificial intelligence/machine learning.&lt;/p&gt;
 &lt;p&gt;Currently focused on computer vision and generative AI.&lt;/p&gt;
 </description>
         </item>
         <item>
         <title>Links</title>
-        <link>http://localhost:1313/links/</link>
+        <link>https://alexnash.dev/links/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>http://localhost:1313/links/</guid>
+        <guid>https://alexnash.dev/links/</guid>
         <description>&lt;p&gt;Includes some of my favorite tools and sites&lt;/p&gt;
 </description>
         </item>
         <item>
         <title>Search</title>
-        <link>http://localhost:1313/search/</link>
+        <link>https://alexnash.dev/search/</link>
         <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
         
-        <guid>http://localhost:1313/search/</guid>
+        <guid>https://alexnash.dev/search/</guid>
         <description></description>
         </item>
         
