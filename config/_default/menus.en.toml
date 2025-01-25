@@ -24,3 +24,12 @@ weight = 2
 
 [social.params]
 icon = "mail"
+
+[[main]]
+name = "Home"
+weight = 1
+url = "/"
+identifier = "home"
+
+[main.params]
+icon = "home"
