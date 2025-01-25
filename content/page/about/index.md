@@ -12,6 +12,14 @@ license: false
 image: background.jpg
 ---
 
-Software Engineer with a passion for exploration. My interests are in embedded systems, high performance computing, and artificial intelligence/machine learning.
+A Software Engineer with a passion for exploration!
 
-Currently focused on computer vision and generative AI.
+My interests include:
+ - Video Processing
+ - Computer Vision
+ - High Performance Computing
+ - Machine Learning
+ - Game Development
+ - Embedded Systems
+
+I'm an avid fan of modern C++, but I'll work in any language.
