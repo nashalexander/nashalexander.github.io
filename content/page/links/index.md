@@ -12,6 +12,10 @@ links:
   - title: cdecl
     description: C declarations explained in English
     website: https://cdecl.org/
+  - title: Image Sensors World
+    description: Posts news related to image sensors and cameras
+    website: https://image-sensors-world.blogspot.com/
+    image: https://image-sensors-world.blogspot.com/favicon.ico
 menu:
     main: 
         weight: 5
