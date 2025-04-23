@@ -1,7 +1,7 @@
 ---
 title: "How to understand C++ Containers Intuitively to Master LeetCode"
 date: 2024-12-22
-image: cover.png
+image: cover.webp
 categories:
     - Learning
 tags:
