@@ -16,17 +16,19 @@ In this article, I'll share some key concepts and camera properties that you sho
 
 ### Resolution, Frame Rate, and Bit Depth
 
-The basic principle of a modern digital video camera is to capture some scene in real-time. To accomplish this, the camera must set a distinct resolution for the visual quality, a frame rate to determine how often
+The basic principle of a modern digital video camera is to capture some scene in real-time. To accomplish this, the camera must set a distinct values such as resolution, frame rate, and pixel bit depth.
 
-- **Resolution:** Determines the visual quality. Higher resolution provides detail but increases data rates and processing load. Typical resolutions with modern cameras fall in the range of 720p, 1080p, 2k, 4k.
+- **Resolution:** Determines the visual quality. Higher resolution provides detail but increases data rates and processing load. Resolution can also be square or landscape, depending on the shape of the camera's sensor. Typical resolutions with modern video cameras include 720p, 1080p, 2k, and 4k.
+
 - **Frame Rate (FPS):** The measurement of how often a camera captures a single image. Video is created by stitching together this series of images. Higher FPS reduces motion blur and improves real-time tracking but increases bandwidth and processing demand.
+
 - **Bit Depth:** The amount of bits used to store a single pixel's color value. Higher bit depth improves color accuracy but increases data size.
   
 ### Rolling Shutters vs. Global Shutters
 
 The shutter is a core concept for understanding cameras. In a classic film camera, the shutter is a physical window that opens and closes, exposing the film to incoming light.
 
-While industrial video cameras, may not have a physical shutter, they do maintain the concept of sampling the camera's light sensors at a given interval. Light is accumulated by the camera's sensors for a given duration, then the value is reset based on exposure time.
+While industrial video cameras may not have a physical shutter, they do maintain the concept of sampling the camera's light sensors at a given interval. Light is accumulated by the camera's sensors for a given duration, then the value is reset based on exposure time.
 
 There are two main types of shutters in industrial cameras, and each significantly impacts the outcome of the image capture:
 
@@ -39,6 +41,7 @@ There are two main types of shutters in industrial cameras, and each significant
 Shutter speed impacts how long the camera's sensors are exposed to light. The length of this period is called exposure time.
 
 - **Long exposure:** Increases brightness and improves overall image quality in low-light conditions, but introduces significant motion blur.
+
 - **Short exposure:** Produces sharp, clear images of fast-moving objects but results in darker images and potentially increased noise.
 
 The objective when setting exposure time is to adjust visual quality with changing environments. In addition, fast-moving systems like those found in robotics often require short exposures to minimize blur and reduce latency, raising the need for better lighting or higher sensor gain.
@@ -60,6 +63,7 @@ Cameras with limited dynamic range can clip highlights or lose shadow details, n
 Camera lenses directly influence captured images. Relevant parameters include:
 
 - **Focal Length:** Determines field of view (wide-angle for broader scenes, telephoto for distant detail).
+
 - **Aperture (f-stop):** Controls the amount of light entering and impacts depth of field; lower numbers (wider aperture) allow more light but shallow depth of field.
 
 **Typical Lens Usage:**
@@ -71,6 +75,7 @@ Camera lenses directly influence captured images. Relevant parameters include:
 There are two primary sensor technologies you will find in most cameras geared for engineering platforms:
 
 - **CMOS (Complementary Metal-Oxide Semiconductor):** Lower power consumption, rapid readout speeds, common in industrial cameras.
+
 - **CCD (Charge-Coupled Device):** Superior image quality in low noise conditions, traditionally favored for scientific applications.
 
 ## Common Distortions
